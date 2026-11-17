@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Thư gửi Mom,...💌</title>
+    <link rel="stylesheet" href="./style/style.css">
+</head>
+<body>
+    <canvas id="fireworks-canvas"></canvas>
+    <div id="petals-container"></div>
+    <div class="envlope-wrapper">
+        <div id="envelope" class="close">
+            
+            <!-- BỨC ẢNH PHONG THƯ BÊN NGOÀI TRƯỚC KHI ẤN MỞ -->
+            <div class="envelope-cover">
+                <img src="./style/letter.png" alt="Phong thư" class="envelope-img" />
+            </div>
+
+            <!-- NỘI DUNG BỨC THƯ (Sẽ bung ra màn hình khi ấn Mở) -->
+            <div class="letter" id="letter-container">
+                <div class="letter-corner corner-tl"></div>
+                <div class="letter-corner corner-br"></div>
+                <div class="message">
+    <div class="lyrics">
+        <!-- 1. Tiêu đề đầu thư -->
+        <div class="letter-title">Gửi Mom,...🌸</div>
+
+        <!-- 2. Nội dung chính của thư (Tự động dàn đều và có kẻ dòng dưới mỗi hàng chữ trên mọi thiết bị) -->
+        <div class="letter-body">
+            <p>Hì hì anh em con có món quà nho nhỏ tặng mẹ nhân ngày 20/11.</p>
+            <p>Nhân ngày 20-11, anh em con chúc mẹ-người giáo viên đầu tiên và suốt cuộc đời của anh em con-một ngày 20/11 thật trọn vẹn và ấm áp. Chúc mẹ luôn mạnh khỏe, vui vẻ, công tác tốt, siêu siêu hạnh phúc, và đặc biệt là phải giữ gìn sức khỏe để anh em con về nấu cơm cho nhaaa ạ!!! 🌷💐🌸👩‍🏫</p>
+        </div>
+
+        <!-- 3. Dòng kết thư ở góc phải -->
+        <div class="letter-footer">Anh em con yêu mẹ nhiều ạ 💗💗💗</div>
+    </div>
+</div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- NÚT MỞ / ĐÓNG NẰM NGAY DƯỚI BỨC THƯ -->
+    <div class="controls">
+        <button id="openBtn">Mở 💌</button>
+        <button id="resetBtn" style="display: none;">Đóng ✕</button>
+    </div>
+
+    <audio id="sound" loop>
+        <source src="./style/Nhac.mp4" type="audio/mpeg" />
+    </audio>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="./style/script.js"></script>
+</body>
+</html>

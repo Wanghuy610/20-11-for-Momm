@@ -1,0 +1,328 @@
+{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    min-height: 100vh;
+    width: 100%;
+    overflow-x: hidden;
+    font-family: 'Poppins', sans-serif;
+
+    background-color: #fce4ec;
+    background-image: 
+        url("./background.png"), 
+        url("./background.jpg"), 
+        url("../background.png"), 
+        url("../background.jpg");
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+
+    /* Xếp bức thư ở giữa và nút Mở nằm ngay bên dưới */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    padding: 20px;
+}
+
+.envlope-wrapper {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+
+#envelope {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.envelope-cover {
+    position: relative;
+    transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    animation: floatEnvelope 3s ease-in-out infinite;
+}
+
+.envelope-img {
+    display: block;
+    width: min(82vw, 340px);
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 15px 28px rgba(0, 0, 0, 0.28));
+    transition: transform 0.35s ease, filter 0.35s ease;
+    user-select: none;
+}
+
+#envelope.close:hover .envelope-img {
+    transform: scale(1.04) translateY(-4px);
+    filter: drop-shadow(0 20px 34px rgba(216, 67, 107, 0.4));
+}
+
+@keyframes floatEnvelope {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+#envelope.open .envelope-cover {
+    transform: scale(0.85) translateY(20px);
+    opacity: 0.25;
+    pointer-events: none;
+    animation: none;
+}
+
+#letter-container {
+    position: fixed;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.4);
+    width: min(92vw, 560px);
+    max-height: 78vh;
+    background: #fffdf9;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    z-index: 100;
+    transition: all 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+#letter-container.show {
+    top: 47%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+
+    /* Khung bao quanh bức thư */
+    border: 3px solid #f2a6b8;
+    outline: 2px dashed #e57390;
+    outline-offset: -10px;
+    border-radius: 18px;
+    box-shadow: 
+        0 24px 60px rgba(0, 0, 0, 0.4), 
+        0 0 0 6px #fffdf9;
+
+    padding: 28px 26px;
+    overflow-y: auto;
+}
+
+#letter-container.show::-webkit-scrollbar {
+    width: 6px;
+}
+#letter-container.show::-webkit-scrollbar-track {
+    background: transparent;
+}
+#letter-container.show::-webkit-scrollbar-thumb {
+    background-color: #f2a6b8;
+    border-radius: 10px;
+}
+
+.message, .lyrics {
+    width: 100%;
+    text-align: left;
+}
+
+/* =========================================================
+   CHUẨN HÓA DÒNG KẺ NGANG TRÊN CẢ ĐIỆN THOẠI & MÁY TÍNH
+   ========================================================= */
+
+#letter-container.show {
+    width: min(92vw, 540px) !important;
+    padding: 26px 24px !important;
+    box-sizing: border-box !important;
+}
+
+/* 1. Tiêu đề "Gửi Mom,...🌸" */
+.letter-title {
+    font-family: 'Pacifico', cursive;
+    font-size: clamp(20px, 4.5vw, 24px);
+    color: #d8436b;
+    text-align: center;
+    border-bottom: 2px solid #eba0b4;
+    padding-bottom: 10px;
+    margin-bottom: 8px;
+}
+
+/* 2. Thân bức thư: Tự động kẻ dòng ngang khớp 100% với từng hàng chữ */
+.letter-body {
+    --line-h: 34px; /* Chiều cao cố định của mỗi dòng giấy */
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(13.5px, 3.6vw, 15.5px); /* Tự co giãn cỡ chữ vừa khít màn hình ĐT & PC */
+    line-height: var(--line-h);
+    color: #4a353b;
+    text-align: justify; /* Căn đều 2 mép trái phải vuông vức, không bị thừa thiếu cuối dòng */
+    
+    /* Tạo đường kẻ ngang tự động lặp lại dưới mỗi dòng chữ */
+    background-image: repeating-linear-gradient(
+        to bottom,
+        transparent 0px,
+        transparent calc(var(--line-h) - 1.5px),
+        #e8b4c2 calc(var(--line-h) - 1.5px),
+        #e8b4c2 var(--line-h)
+    );
+    background-size: 100% var(--line-h);
+    background-attachment: local;
+    padding-top: 2px;
+}
+
+.letter-body p {
+    margin: 0;
+    padding: 0;
+    line-height: var(--line-h);
+    border: none !important; /* Tắt border-bottom cũ gây lỗi rớt dòng */
+}
+
+/* 3. Chữ ký cuối thư ("Anh em con yêu mẹ nhiều ạ 💗💗💗") */
+.letter-footer {
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(13.5px, 3.6vw, 15.5px);
+    font-weight: 600;
+    color: #d8436b;
+    text-align: right;
+    line-height: 36px;
+    margin-top: 4px;
+    border-bottom: 2px solid #eba0b4;
+}
+
+/* Tối ưu riêng cho màn hình điện thoại nhỏ */
+@media (max-width: 480px) {
+    #letter-container.show {
+        padding: 20px 18px !important;
+    }
+    .letter-body {
+        --line-h: 30px; /* Thu gọn khoảng cách dòng vừa mắt trên điện thoại */
+        text-align: left;
+    }
+}
+.letter-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 8, 12, 0.5);
+    backdrop-filter: blur(4px);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: all 0.4s ease;
+    z-index: 90;
+}
+
+.letter-overlay.active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.controls {
+    position: relative;
+    z-index: 110;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#openBtn, #resetBtn {
+    padding: 11px 50px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: #ffffff;
+    background: linear-gradient(180deg, #ff6b8b 0%, #ff8e9e 100%);
+    border: 2px solid #ffffff;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(255, 107, 139, 0.45);
+    transition: all 0.5s ease;
+}
+
+#openBtn:hover, #resetBtn:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 12px 26px rgba(255, 107, 139, 0.65);
+}
+
+#openBtn:active, #resetBtn:active {
+    transform: translateY(0) scale(0.98);
+}
+
+#fireworks-canvas {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 95;
+}
+
+#petals-container {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 92;
+}
+.petal {
+    position: absolute;
+    top: -40px;
+    background: linear-gradient(135deg, #ffdde6 0%, #ff9ebb 55%, #ff6b98 100%);
+    border-radius: 150% 0 150% 0;
+    box-shadow: 0 2px 8px rgba(255, 105, 145, 0.35);
+    opacity: 0.85;
+    pointer-events: none;
+    animation: petalFall linear forwards;
+}
+
+/* Đổi màu nhẹ cho một số cánh hoa thêm tự nhiên */
+.petal:nth-child(even) {
+    background: linear-gradient(135deg, #fff0f5 0%, #ffb6c9 60%, #ff85a2 100%);
+    border-radius: 0 150% 0 150%;
+}
+
+.petal:nth-child(3n) {
+    filter: blur(0.6px);
+    opacity: 0.65;
+}
+
+@keyframes petalFall {
+    0% {
+        transform: translate3d(0, -5vh, 0) rotate(0deg) rotateY(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.9;
+    }
+    50% {
+        transform: translate3d(calc(var(--sway, 50px) * 0.6), 50vh, 0) rotate(180deg) rotateY(180deg);
+    }
+    90% {
+        opacity: 0.85;
+    }
+    100% {
+        transform: translate3d(var(--sway, 60px), 105vh, 0) rotate(360deg) rotateY(360deg);
+        opacity: 0;
+    }
+}
+.controls {
+    position: fixed !important;
+    bottom: 30px !important; 
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    z-index: 120 !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: auto;
+}
